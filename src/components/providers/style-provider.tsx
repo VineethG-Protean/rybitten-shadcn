@@ -1,35 +1,103 @@
 import React, { createContext, useEffect, useState } from "react";
-import { generateRYBHSLtoRGB } from "@/lib/rybitten";
+import { generateRandomColorObject, generateRYBHSLtoRGB } from "@/lib/rybitten";
 import { useAtomValue, useSetAtom } from "jotai";
-import { RYBITTEN_COLORS, RYBITTEN_PARAMS_ATOM } from "@/lib/atom";
+import {
+  RYBITTEN_COLORS_ATOM,
+  RYBITTEN_PARAMS_ATOM,
+  THEME_ATOM,
+} from "@/lib/atom";
 import { SHADCN_VARIABLES } from "@/lib/types";
 
-type ColorContextType = {
+type StyleContextType = {
   setColorsObject: (colors: SHADCN_VARIABLES) => void;
+  generateRandomColors: () => void;
 };
 
-export const ColorContext = createContext<ColorContextType | undefined>(
+const EMPTY_SHADCN_OBJECT: SHADCN_VARIABLES = {
+  border: "",
+  input: "",
+  ring: "",
+  background: "",
+  foreground: "",
+  primary: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  secondary: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  destructive: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  muted: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  accent: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  popover: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  card: {
+    DEFAULT: "",
+    foreground: "",
+  },
+  chart_1: "",
+  chart_2: "",
+  chart_3: "",
+  chart_4: "",
+  chart_5: "",
+  radius: "",
+};
+
+export const StyleContext = createContext<StyleContextType | undefined>(
   undefined
 );
 
-export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({
+export const StyleProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const rybittenParams = useAtomValue(RYBITTEN_PARAMS_ATOM);
-  const setAtomColors = useSetAtom(RYBITTEN_COLORS);
+  const setAtomColors = useSetAtom(RYBITTEN_COLORS_ATOM);
   const [colorsObject, setColorsObject] = useState<SHADCN_VARIABLES>();
+  const setTheme = useSetAtom(THEME_ATOM);
+
+  const generateRandomColors = () => {
+    const colors_object = generateRandomColorObject<SHADCN_VARIABLES>(
+      rybittenParams.amount,
+      rybittenParams.s,
+      rybittenParams.l,
+      (h) => h * rybittenParams.easingFn,
+      rybittenParams.oldScool,
+      rybittenParams.type,
+      EMPTY_SHADCN_OBJECT
+    );
+
+    setColorsObject(colors_object);
+    setTheme(colors_object);
+  };
+
+  useEffect(()=> {
+    document.documentElement.style.setProperty(
+      "--radius",
+      `${rybittenParams.radius}rem`
+    );
+  },[rybittenParams.radius])
 
   useEffect(() => {
     const colors = generateRYBHSLtoRGB(
       rybittenParams.amount,
       rybittenParams.s,
       rybittenParams.l,
-      (h) => h * rybittenParams.hFn,
+      (h) => h * rybittenParams.easingFn,
       rybittenParams.oldScool,
       rybittenParams.type
     );
-
-    //UPDATE STATE
     setAtomColors(colors);
 
     if (colorsObject) {
@@ -100,16 +168,22 @@ export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({
         "--chart-5",
         colorsObject.chart_5
       );
+
+      document.documentElement.style.setProperty(
+        "--radius",
+        `${colorsObject.radius}rem`
+      );
     }
   }, [rybittenParams, colorsObject]);
 
   return (
-    <ColorContext.Provider
+    <StyleContext.Provider
       value={{
         setColorsObject,
+        generateRandomColors,
       }}
     >
       {children}
-    </ColorContext.Provider>
+    </StyleContext.Provider>
   );
 };

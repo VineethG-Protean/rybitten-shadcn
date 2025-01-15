@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { ColorContext } from "../providers/color-provider";
+import { StyleContext } from "../providers/style-provider";
 
 export const useColors = () => {
-  const context = useContext(ColorContext);
+  const context = useContext(StyleContext);
   if (!context) {
     throw new Error("useColors must be used within a ColorProvider");
   }

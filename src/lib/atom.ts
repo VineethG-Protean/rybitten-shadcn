@@ -43,13 +43,14 @@ export const THEME_ATOM = atom<SHADCN_VARIABLES>({
   radius: "",
 });
 
-export const RYBITTEN_COLORS = atom<string[]>([]);
+export const RYBITTEN_COLORS_ATOM = atom<string[]>([]);
 
 export const RYBITTEN_PARAMS_ATOM = atom<RYBITTEN_PARAMS>({
   amount: 12,
   s: 1,
   l: 0.5,
-  hFn: 1,
+  easingFn: 1,
   oldScool: false,
   type: "apple80s",
+  radius: 10,
 });

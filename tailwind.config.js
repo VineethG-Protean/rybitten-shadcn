@@ -15,10 +15,10 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  safelist: [
-    { pattern: /bg-rybitten-\d+/ },
-    { pattern: /border-t-rybitten-\d+/ },
-  ],
+  // safelist: [
+  //   { pattern: /bg-rybitten-\d+/ },
+  //   { pattern: /border-t-rybitten-\d+/ },
+  // ],
   prefix: "",
   theme: {
     container: {
@@ -66,6 +66,7 @@ module.exports = {
         },
       },
       borderRadius: {
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",

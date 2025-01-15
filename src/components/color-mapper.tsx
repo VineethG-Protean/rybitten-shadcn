@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 
-import { THEME_ATOM, RYBITTEN_COLORS } from "@/lib/atom";
+import { THEME_ATOM, RYBITTEN_COLORS_ATOM } from "@/lib/atom";
 
 import {
   Select,
@@ -15,7 +15,7 @@ interface ColorMapperProps {
 
 export default function ColorMapper({ selectedColor }: ColorMapperProps) {
   const [theme, setTheme] = useAtom(THEME_ATOM);
-  const colors = useAtomValue(RYBITTEN_COLORS);
+  const colors = useAtomValue(RYBITTEN_COLORS_ATOM);
 
   const handleDrop = (
     e: React.DragEvent,
@@ -49,7 +49,6 @@ export default function ColorMapper({ selectedColor }: ColorMapperProps) {
     category: string,
     nestedCategory?: string
   ) => {
-    console.log(color, category);
     if (color) {
       const updatedTheme = { ...theme };
       if (nestedCategory) {
@@ -79,7 +78,7 @@ export default function ColorMapper({ selectedColor }: ColorMapperProps) {
     <div className="flex flex-col gap-2">
       {Object.keys(theme).map((v, i) => (
         <div key={i}>
-          {typeof theme[v] === "string" && (
+          {typeof theme[v] === "string" && v !== "radius" && (
             <div
               className="flex justify-between items-center border px-2 py-1 rounded-md"
               onDrop={(e) => handleDrop(e, v)}

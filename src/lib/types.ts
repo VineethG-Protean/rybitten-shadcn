@@ -44,7 +44,8 @@ export type RYBITTEN_PARAMS = {
   amount: number;
   s: number;
   l: number;
-  hFn: number;
+  easingFn: number;
   oldScool: boolean;
   type: string;
+  radius: number;
 };

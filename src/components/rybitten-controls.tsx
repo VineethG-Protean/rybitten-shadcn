@@ -81,10 +81,10 @@ export default function RybittenControls() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-bold">Factor - {params.hFn}</p>
+          <p className="text-xs font-bold">Factor - {params.easingFn}</p>
           <Slider
-            onValueChange={(e) => handleUpdateParams(e, "hFn")}
-            defaultValue={[params.hFn]}
+            onValueChange={(e) => handleUpdateParams(e, "easingFn")}
+            defaultValue={[params.easingFn]}
             max={10}
             step={1}
           />

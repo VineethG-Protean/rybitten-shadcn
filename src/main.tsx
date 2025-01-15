@@ -2,12 +2,12 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { ColorProvider } from "./components/providers/color-provider.tsx";
+import { StyleProvider } from "./components/providers/style-provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ColorProvider>
+    <StyleProvider>
       <App />
-    </ColorProvider>
+    </StyleProvider>
   </StrictMode>
 );

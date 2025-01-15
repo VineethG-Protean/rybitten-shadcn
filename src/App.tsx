@@ -12,7 +12,7 @@ function App() {
   const [expand, setExpand] = useState<boolean>(false);
 
   return (
-    <div className="relative w-full h-full p-4">
+    <div className="relative w-full h-full p-4 bg-neutral-200">
       <Demo />
 
       <ColorPalatte
